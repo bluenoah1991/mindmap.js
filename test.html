@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        body{padding: 50px;}
+        #canvas{border: #000 solid 1px;}
+    </style>
+    <link type="text/css" href="./assets/css/mindmap.css" rel="stylesheet">
+    <script type="text/javascript" src="./assets/javascripts/hidpi-canvas.min.js"></script>
+    <script type="text/javascript" src="./assets/javascripts/canvas.js"></script>
+    <script type="text/javascript" src="./assets/javascripts/zepto.min.js"></script>
+</head>
+<body>
+    <canvas width='1500' height='800' id="canvas"></canvas>
+    <script type="text/javascript" src="./bundle.js"></script>
+    <script type="text/javascript">
+        var scene = new Scene('canvas', {
+            infinity: true
+        });
+
+        var serial = 0;
+
+        // Drawing a Node
+        var node = new Node({
+            name: 'General Tips',
+            serial: ++serial,
+            items: [
+                {type: 'image', src: './assets/images/1.png'},
+                {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
+            ]
+        });
+
+        scene.addBox(node.box, 20, 20, 0);
+
+        for(var i = 0; i < 2; i++){
+            var childnode = new Node({
+                name: 'General Tips',
+                serial: ++serial,
+                items: [
+                    {type: 'image', src: './assets/images/1.png'},
+                    {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
+                ]
+            });
+            node.addChildNode(childnode);
+            for(var i_ = 0; i_ < 2; i_++){
+                var childnode_ = new Node({
+                    name: 'General Tips',
+                    serial: ++serial,
+                    items: [
+                        {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
+                    ]
+                });
+                childnode.addChildNode(childnode_);
+                var childnode2_ = new Node({
+                    name: 'General Tips',
+                    serial: ++serial,
+                    items: [
+                        {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
+                    ]
+                });
+                childnode_.addChildNode(childnode2_);
+            }
+        }
+
+    </script>
+</body>
+</html>
