@@ -213,14 +213,16 @@ export default class Node{
         for(var i in this.nodes){
             let node = this.nodes[i];
             node.box.show();
-            if(node.link != undefined){
-                node.link.switch(true);
-                node.link.box.show();
-            }
             if(node.line != undefined){
                 node.line.box.show();
             }
-            node.open();
+            if(node.link != undefined){
+                node.link.box.show();
+                if(node.link.open){
+                    node.link.switch(true);
+                    node.open();
+                }
+            }
         }
         // adjust position
         this.getRootNode()._adjustPosition();
