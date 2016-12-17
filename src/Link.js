@@ -10,7 +10,8 @@ export default class Link{
         this.open = this.opts.open || true;
 
         this.box = new Box(this.render.bind(this));
-        this.box.onMouseDown = this.onMouseDown.bind(this);
+        this.box.onMouseDown = this.onTouch.bind(this);
+        this.box.onTouchStart = this.onTouch.bind(this)
     }
 
     reset(x, y){
@@ -39,7 +40,7 @@ export default class Link{
         this.box.scene.render();
     }
 
-    onMouseDown(e, x, y){
+    onTouch(e, x, y){
         this.switch();
         if(this.open){
             this.node.open();
