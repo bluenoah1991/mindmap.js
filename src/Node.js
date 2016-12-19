@@ -14,74 +14,25 @@ export default class Node{
 
         // Options
         this.opts = opts || {};
-        this.name = this.opts.name || '';
-        this.serial = this.opts.serial || null;
-        this.items = this.opts.items || [];
+        this.element = this.opts.element || $('<h1>Node</h1>');
         this.linkRadius = this.opts.linkRadius || 8;
         this.gapWidth = this.opts.gapWidth || 50;
         this.gapHeight = this.opts.gapHeight || 30;
-
-        // Build Element
-        this.container = this._createContainer();
-        this._addContent(this._createHeader(this.name, this.serial));
-        _.forEach(this.items, function(item){
-            if(item.type == 'image'){
-                this._addContent(this._createImage(item.src));
-            } else if(item.type == 'paragraph'){
-                this._addContent(this._createParagraph(item.text));
-            }
-        }.bind(this));
-        this.box = new Box(this.container);
+        this.box = new Box(this.element);
     }
 
-    _createContainer(){
-        let element = $('<div />');
-        element.addClass('mindmap');
-        element.addClass('node');
-        return element;
-    }
-
-    _addContent(element){
-        this.container.append(element);
-    }
-
-    _createHeader(text, serial){
-        let element = $('<p />');
-        element.addClass('header');
-        element.text(text);
-        if(serial != undefined){
-            let serialElement = $('<span />');
-            serialElement.addClass('serial');
-            serialElement.text(serial);
-            element.append(serialElement);
-        }
-        return element;
-    }
-
-    // Create Item
-
-    _createImage(src){
-        let element = $('<img />', {
-            src: src
-        });
-        element.addClass('item');
-        element.addClass('image');
-        return element;
-    }
-
-    _createParagraph(text){
-        let element = $('<p />');
-        element.addClass('item');
-        element.addClass('paragraph');
-        element.text(text);
-        return element;
+    _calcElementHeight(element){
+        let marginTop = parseInt(element.css('margin-top'));
+        let marginBottom = parseInt(element.css('margin-bottom'));
+        let height = element.height();
+        return height + marginTop + marginBottom;
     }
 
     // Position
 
     _getConnectionPosition(orientation = 'left'){
-        let width = this.container.width();
-        let height = this.container.height();
+        let width = this.element.width();
+        let height = this._calcElementHeight(this.element);
         if(orientation == 'left'){
             let x = this.box.x;
             let y = this.box.y + height / 2;
@@ -90,8 +41,8 @@ export default class Node{
     }
 
     _getLinkPosition(orientation = 'right'){
-        let width = this.container.width();
-        let height = this.container.height();
+        let width = this.element.width();
+        let height = this._calcElementHeight(this.element);
         if(orientation == 'right'){
             let x = this.box.x + width + this.linkRadius;
             let y = this.box.y + height / 2;
@@ -145,22 +96,22 @@ export default class Node{
             height += (nodes.length - 1) * this.gapHeight;
 
         } else {
-            height += this.container.height();
+            height += this._calcElementHeight(this.element);
         }
         return height;
     }
 
     _adjustPosition(){
         let height = this._calcHeight();
-        let startX = this.box.x + this.container.width() + this.gapWidth;
-        let centerY = this.box.y + this.container.height() / 2;
+        let startX = this.box.x + this.element.width() + this.gapWidth;
+        let centerY = this.box.y + this._calcElementHeight(this.element) / 2;
         let startY = centerY - height / 2;
 
         let [x1, y1] = this._getLinkExternalPosition();
         
         for(var i in this.nodes){
             let node = this.nodes[i];
-            let startY_ = startY + ((node._calcHeight() - node.container.height()) / 2);
+            let startY_ = startY + ((node._calcHeight() - this._calcElementHeight(node.element)) / 2);
             node.reset(startX, startY_);
             node._adjustLink();
             node._adjustLine(x1, y1);

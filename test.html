@@ -7,7 +7,6 @@
         body{padding: 50px;}
         #canvas{border: #000 solid 1px; width: 1500px; height: 800px;}
     </style>
-    <link type="text/css" href="./assets/css/mindmap.css" rel="stylesheet">
     <!--<script type="text/javascript" src="./assets/javascripts/hidpi-canvas.min.js"></script>-->
     <script type="text/javascript" src="./assets/javascripts/canvas.js"></script>
     <script type="text/javascript" src="./assets/javascripts/zepto.min.js"></script>
@@ -23,43 +22,22 @@
         var serial = 0;
 
         // Drawing a Node
+        var rootElement = $('<h1 />');
+        rootElement.text('Root');
+
         var node = new Node({
-            name: 'General Tips',
-            serial: ++serial,
-            items: [
-                {type: 'image', src: './assets/images/1.png'},
-                {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
-            ]
+            element: rootElement
         });
 
-        scene.addBox(node.box, 20, 20, 0);
+        scene.addBox(node.box, 20, 120, 0);
 
         for(var i = 0; i < 2; i++){
-            var childnode = new Node({
-                name: 'General Tips',
-                serial: ++serial,
-                items: [
-                    {type: 'image', src: './assets/images/1.png'},
-                    {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
-                ]
-            });
+            var childnode = new Node();
             node.addChildNode(childnode);
             for(var i_ = 0; i_ < 2; i_++){
-                var childnode_ = new Node({
-                    name: 'General Tips',
-                    serial: ++serial,
-                    items: [
-                        {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
-                    ]
-                });
+                var childnode_ = new Node();
                 childnode.addChildNode(childnode_);
-                var childnode2_ = new Node({
-                    name: 'General Tips',
-                    serial: ++serial,
-                    items: [
-                        {type: 'paragraph', text: 'These methods of note taking are generally time consuming and ineffective and there is an easier way!'}
-                    ]
-                });
+                var childnode2_ = new Node();
                 childnode_.addChildNode(childnode2_);
             }
         }
