@@ -21,18 +21,18 @@ export default class Node{
         this.box = new Box(this.element);
     }
 
-    _calcElementHeight(element){
-        let marginTop = parseInt(element.css('margin-top'));
-        let marginBottom = parseInt(element.css('margin-bottom'));
-        let height = element.height();
+    _calcElementHeight(box){
+        let marginTop = box.elementMarginTop();
+        let marginBottom = box.elementMarginBottom();
+        let height = box.elementHeight();
         return height + marginTop + marginBottom;
     }
 
     // Position
 
     _getConnectionPosition(orientation = 'left'){
-        let width = this.element.width();
-        let height = this._calcElementHeight(this.element);
+        let width = this.box.elementWidth();
+        let height = this._calcElementHeight(this.box);
         if(orientation == 'left'){
             let x = this.box.x;
             let y = this.box.y + height / 2;
@@ -41,8 +41,8 @@ export default class Node{
     }
 
     _getLinkPosition(orientation = 'right'){
-        let width = this.element.width();
-        let height = this._calcElementHeight(this.element);
+        let width = this.box.elementWidth();
+        let height = this._calcElementHeight(this.box);
         if(orientation == 'right'){
             let x = this.box.x + width + this.linkRadius;
             let y = this.box.y + height / 2;
@@ -96,22 +96,22 @@ export default class Node{
             height += (nodes.length - 1) * this.gapHeight;
 
         } else {
-            height += this._calcElementHeight(this.element);
+            height += this._calcElementHeight(this.box);
         }
         return height;
     }
 
     _adjustPosition(){
         let height = this._calcHeight();
-        let startX = this.box.x + this.element.width() + this.gapWidth;
-        let centerY = this.box.y + this._calcElementHeight(this.element) / 2;
+        let startX = this.box.x + this.box.elementWidth() + this.gapWidth;
+        let centerY = this.box.y + this._calcElementHeight(this.box) / 2;
         let startY = centerY - height / 2;
 
         let [x1, y1] = this._getLinkExternalPosition();
         
         for(var i in this.nodes){
             let node = this.nodes[i];
-            let startY_ = startY + ((node._calcHeight() - this._calcElementHeight(node.element)) / 2);
+            let startY_ = startY + ((node._calcHeight() - this._calcElementHeight(node.box)) / 2);
             node.reset(startX, startY_);
             node._adjustLink();
             node._adjustLine(x1, y1);
