@@ -103,11 +103,26 @@ export default class Node{
         return height;
     }
 
+    _calcChildHeight(){
+        let height = 0;
+        let nodes = _.filter(this.nodes, function(node){
+            return node.isShow();
+        });
+        if(nodes.length > 0){
+            for(var i in nodes){
+                let child = nodes[i];
+                height += child._calcHeight();
+            }
+            height += (nodes.length - 1) * this.gapHeight;
+        }
+        return height;
+    }
+
     _adjustPosition(){
-        let height = this._calcHeight();
+        let childHeight = this._calcChildHeight();
         let startX = this.box.x + this.box.elementWidth() + this.gapWidth;
         let centerY = this.box.y + this._calcElementHeight(this.box) / 2;
-        let startY = centerY - height / 2;
+        let startY = centerY - childHeight / 2;
 
         let [x1, y1] = this._getLinkExternalPosition();
         
