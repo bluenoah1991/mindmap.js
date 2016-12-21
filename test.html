@@ -26,16 +26,17 @@
         rootElement.text('Root');
 
         var node = new Node({
-            element: rootElement
+            element: rootElement,
+            color: 'red'
         });
 
         scene.addBox(node.box, 20, 120, 0);
 
         for(var i = 0; i < 2; i++){
-            var childnode = new Node();
+            var childnode = new Node({color: 'blue'});
             node.addChildNode(childnode);
             for(var i_ = 0; i_ < 2; i_++){
-                var childnode_ = new Node();
+                var childnode_ = new Node({color: 'green'});
                 childnode.addChildNode(childnode_);
                 var childnode2_ = new Node();
                 childnode_.addChildNode(childnode2_);

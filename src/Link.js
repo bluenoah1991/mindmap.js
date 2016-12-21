@@ -8,6 +8,7 @@ export default class Link{
         this.opts = opts || {};
         this.radius = opts.radius || 8;
         this.open = this.opts.open || true;
+        this.color = this.opts.color || 'lightskyblue';
 
         this.box = new Box(this.render.bind(this));
         this.box.onMouseDown = this.onTouch.bind(this);
@@ -20,7 +21,7 @@ export default class Link{
 
     render(ctx){
         let path = ctx.createPath();
-        ctx.setStrokeStyle('lightskyblue');
+        ctx.setStrokeStyle(this.color);
         path.ellipse(0, 0, this.radius, this.radius, 0, 0, 2 * Math.PI);
         path.moveTo(2 - this.radius, 0);
         path.lineTo(this.radius - 2, 0);

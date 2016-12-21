@@ -9,6 +9,7 @@ export default class Line{
         this.x2 = this.opts.x2 || 0;
         this.y2 = this.opts.y2 || 0;
         this.curvature = this.opts.curvature || 20;
+        this.color = this.opts.color || 'lightskyblue';
         this.box = new Box(this.render.bind(this));
     }
 
@@ -21,7 +22,7 @@ export default class Line{
 
     render(ctx){
         let path = ctx.createPath();
-        ctx.setStrokeStyle('lightskyblue');
+        ctx.setStrokeStyle(this.color);
         path.moveTo(this.x1, this.y1);
         let cp1x = this.x1 > this.x2 ? this.x1 - this.curvature : this.x1 + this.curvature;
         let cp1y = this.y1;

@@ -18,6 +18,7 @@ export default class Node{
         this.linkRadius = this.opts.linkRadius || 8;
         this.gapWidth = this.opts.gapWidth || 50;
         this.gapHeight = this.opts.gapHeight || 30;
+        this.color = this.opts.color || 'lightskyblue';
         this.box = new Box(this.element);
     }
 
@@ -64,7 +65,8 @@ export default class Node{
             let [x, y] = this._getLinkPosition(orientation);
             this.link = new Link(this, {
                 open: true,
-                radius: this.linkRadius
+                radius: this.linkRadius,
+                color: this.color
             });
             this.box.scene.addBox(this.link.box, x, y, 0);
         }
@@ -75,7 +77,8 @@ export default class Node{
             let [x2, y2] = this._getConnectionPosition(orientation);
             this.line = new Line({
                 x1: x1, y1: y1,
-                x2: x2, y2: y2
+                x2: x2, y2: y2,
+                color: this.color
             });
             this.box.scene.addBox(this.line.box, 0, 0, -1);
         }
