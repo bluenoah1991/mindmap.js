@@ -89,14 +89,16 @@ export default class Node{
             return node.isShow();
         });
         if(nodes.length > 0){
+            let childHeight = 0
             for(var i in nodes){
                 let child = nodes[i];
-                height += child._calcHeight();
+                childHeight += child._calcHeight();
             }
-            height += (nodes.length - 1) * this.gapHeight;
-
+            childHeight += (nodes.length - 1) * this.gapHeight;
+            let currentHeight = this._calcElementHeight(this.box);
+            height = childHeight > currentHeight ? childHeight : currentHeight;
         } else {
-            height += this._calcElementHeight(this.box);
+            height = this._calcElementHeight(this.box);
         }
         return height;
     }
