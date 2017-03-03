@@ -160,6 +160,12 @@ export default class Node{
         this.box.setPosition(x, y);
     }
 
+    digest(){
+        this._adjustLink()
+        this._adjustPosition();
+        this.box.scene.render();
+    }
+
     addChildNode(node){
         // mount node
         this.nodes.push(node);

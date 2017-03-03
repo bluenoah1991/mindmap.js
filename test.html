@@ -5,18 +5,38 @@
     <style>
         *{margin: 0; padding: 0;}
         body{padding: 50px;}
-        #canvas{border: #000 solid 1px; width: 1500px; height: 800px;}
+        #container{display: none;}
+        #canvas{border: #000 solid 1px; width: 1000px; height: 600px;}
     </style>
     <!--<script type="text/javascript" src="./assets/javascripts/hidpi-canvas.min.js"></script>-->
     <script type="text/javascript" src="./assets/javascripts/canvas.js"></script>
     <script type="text/javascript" src="./assets/javascripts/zepto.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        $('#show_button').click(function(){
+            $('#container').css({'display': 'block'});
+            window.CurrentScene.digest();
+            window.RootNode.digest();
+        });
+        $('#hide_button').click(function(){
+            $('#container').css({'display': 'none'});
+        });
+    });
+    </script>
 </head>
 <body>
-    <canvas width='1500' height='800' id="canvas"></canvas>
+    <input id="show_button" type="button" value="Show Canvas" />
+    <input id="hide_button" type="button" value="Hide Canvas" />
+    <br /><br /><br />
+    <div id="container">
+        <canvas width='1000' height='600' id="canvas"></canvas>
+        <div id="elementContainer"></div>
+    </div>
     <script type="text/javascript" src="./bundle.js"></script>
     <script type="text/javascript">
-        var scene = new Scene('canvas', {
-            infinity: true
+        var scene = window.CurrentScene = new Scene('canvas', {
+            infinity: true,
+            elementContainer: 'elementContainer'
         });
 
         var serial = 0;
@@ -25,7 +45,7 @@
         var rootElement = $('<h1 />');
         rootElement.text('Root');
 
-        var node = new Node({
+        var node = window.RootNode = new Node({
             element: rootElement,
             color: 'red'
         });
